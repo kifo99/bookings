@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/kifo99/bookings/pkg/config"
@@ -33,7 +34,7 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	remoteIp := r.RemoteAddr
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIp)
 
-	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the about page handler
@@ -45,26 +46,40 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIp
 
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
+
+//Reservation renders make reservation page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
 }
 
+//Renders the room page
 func (m *Repository) Penthouse(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "penthouse.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "penthouse.page.tmpl", &models.TemplateData{})
 }
 
+//Renders the room page
 func (m *Repository) Cheep(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "cheep.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "cheep.page.tmpl", &models.TemplateData{})
 }
 
+//Availability renders the search availability page
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
+// PostAvailability renders the search availability page
+func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
+	start := r.Form.Get("start")
+	end := r.Form.Get("end")
+
+	w.Write([]byte(fmt.Sprintf("start date is %s and enda date is %s", start, end)))
+}
+
+//Contact renders the contact page
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "contact.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
 }

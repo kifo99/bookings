@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/justinas/nosurf"
 	"github.com/kifo99/bookings/pkg/config"
 	"github.com/kifo99/bookings/pkg/models"
 )
@@ -21,22 +22,23 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefoultData(td *models.TemplateData) *models.TemplateData{
+func AddDefoultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate using html template
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
-	if app.UseCache{
+
+	if app.UseCache {
 		tc = app.TemplateCache
-	}else {
+	} else {
 		tc, _ = CreateTemplateCache()
 	}
 	// get the template cache from the app config
-	
 
 	t, ok := tc[tmpl]
 	if !ok {
@@ -45,8 +47,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 
 	buf := new(bytes.Buffer)
 
-
-	td = AddDefoultData(td)
+	td = AddDefoultData(td, r)
 
 	_ = t.Execute(buf, td)
 
@@ -54,9 +55,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 	if err != nil {
 		fmt.Println("Error writing template to browser", err)
 	}
-	
-}
 
+}
 
 // CreatesTemplateCache as a map
 
