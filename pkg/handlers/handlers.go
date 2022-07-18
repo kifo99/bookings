@@ -27,7 +27,8 @@ func NewRepo(a *config.AppConfig) *Repository {
 func NewHandlers(r *Repository) {
 	Repo = r
 }
-		//reciver//
+
+//reciver//
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	remoteIp := r.RemoteAddr
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIp)
@@ -43,7 +44,6 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIp
-
 
 	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
@@ -68,4 +68,3 @@ func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "contact.page.tmpl", &models.TemplateData{})
 }
-
