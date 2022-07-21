@@ -6,18 +6,18 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/kifo99/bookings/pkg/config"
-	"github.com/kifo99/bookings/pkg/handlers"
-	"github.com/kifo99/bookings/pkg/render"
+	"github.com/kifo99/bookings/internal/config"
+	"github.com/kifo99/bookings/internal/handlers"
+	"github.com/kifo99/bookings/internal/render"
 )
 
 const portNumber = ":8080"
+
 var app config.AppConfig
 var session *scs.SessionManager
 
 // main is the main application function
 func main() {
-	
 
 	//change this to true when in production
 	app.InProduction = false
@@ -29,7 +29,6 @@ func main() {
 	session.Cookie.Secure = app.InProduction
 
 	app.Session = session
-
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
@@ -44,7 +43,7 @@ func main() {
 	render.NewTemplates(&app)
 
 	srv := &http.Server{
-		Addr: portNumber,
+		Addr:    portNumber,
 		Handler: routes(&app),
 	}
 

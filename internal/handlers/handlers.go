@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kifo99/bookings/pkg/config"
-	"github.com/kifo99/bookings/pkg/models"
-	"github.com/kifo99/bookings/pkg/render"
+	"github.com/kifo99/bookings/internal/config"
+	"github.com/kifo99/bookings/internal/models"
+	"github.com/kifo99/bookings/internal/render"
 )
 
 //Repo the repository used by handlers
