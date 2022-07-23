@@ -6,10 +6,19 @@
         <div class="col">
             <h1>Make a Reservation</h1>
             <h6>Reservation Details:</h6>
-            <form method="post" action="" class="needs-validation" novalidate>
+            <form method="post" action="/make-reservation" class="" novalidate>
+                
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+
+
                 <div class="form-group">
                   <label for="first_name">First name:</label>
-                  <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Name" required autocomplete="off">
+                  {{with .Form.Errors.Get "first_name"}}
+                        <label class="text-danger" >{{.}}</label>
+                  {{end}}
+                  <input type="text" class='form-control {{with .Form.Errors.Get "first-name"}} is-invalid {{end}}'
+                  id="first_name" name="first_name" placeholder="Name" required autocomplete="off">
                  
                 </div>
 

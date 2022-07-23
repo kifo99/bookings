@@ -1,5 +1,6 @@
 package models
 
+import "github.com/kifo99/bookings/internal/forms"
 
 //TemplateData holds data sent from handlersto templates
 type TemplateData struct {
@@ -11,4 +12,5 @@ type TemplateData struct {
 	Flash     string
 	Warning   string
 	Error     string
+	Form      *forms.Form
 }
