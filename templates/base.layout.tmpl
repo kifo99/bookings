@@ -132,6 +132,14 @@
     })
   }
 
+  {{with .Error}}
+  notify("{{.}}", "error")
+  {{end}}
+
+
+  {{with .Flash}}
+  notify("{{.}}", "success")
+  {{end}}
 
 
   function Prompt(){
